@@ -140,7 +140,13 @@
     </div>
 
     <div class="footer" id="footer" style="display: none;">
-        <div class="footer-info"><span><i class="fas fa-user"></i> Orhan BOYRAZ</span><span><i class="fab fa-whatsapp"></i> 0540 966 66 02</span><span><i class="fas fa-envelope"></i> orhanboyraz0216@gmail.com</span><span><i class="fas fa-map-marker-alt"></i> Bursa / Türkiye</span></div>
+        <div class="footer-info">
+            <span><i class="fas fa-user"></i> CFO. Müh.Orhan BOYRAZ</span>
+            <span><i class="fab fa-whatsapp"></i> 0540 966 66 02</span>
+            <span><i class="fas fa-envelope"></i> orhanboyraz0216@gmail.com</span>
+            <span><i class="fas fa-map-marker-alt"></i> Bursa / Türkiye</span>
+            <span><i class="fas fa-globe"></i> <a href="https://anadolunetwork.tr/" target="_blank" style="color: var(--gold);">anadolunetwork.tr</a></span>
+        </div>
         <button class="whatsapp-btn" onclick="window.open('https://wa.me/905409666002?text=Sayın Orhan BOYRAZ, Anadolu Network Devleti ortaklık başvurusu hakkında bilgi almak istiyorum.','_blank')" style="background: var(--whatsapp); color: white; padding: 8px 20px; border-radius: 50px; border: none; cursor: pointer;"><i class="fab fa-whatsapp"></i> WhatsApp</button>
     </div>
 
@@ -168,10 +174,10 @@
                     <input type="tel" id="appPhone" placeholder="Telefon">
                     <select id="appPackage">
                         <option value="">Paket Seçiniz</option>
-                        <option value="Girişim Paketi (999₺)">Girişim Paketi (999₺)</option>
-                        <option value="İş Ortağı Paketi (4.999₺)">İş Ortağı Paketi (4.999₺)</option>
-                        <option value="Yatırımcı Paketi (4.999₺)">İş Ortağı Paketi (4.999₺)</option>
-                        <option value="Elite Kurucu Paketi (24.999₺)">Elite Kurucu Paketi (24.999₺)</option>
+                        <option value="Girişimci Paketi (1000₺)">🚀 Girişimci Paketi (1000₺)</option>
+                        <option value="İş Ortaklığı Paketi (5.000₺)">🤝 İş Ortaklığı Paketi (5.000₺)</option>
+                        <option value="Yatırımcı Paketi (12.000₺)">💎 Yatırımcı Paketi (12.000₺)</option>
+                        <option value="Elit Kurucu Paketi (24.000₺)">👑 Elit Kurucu Paketi (24.000₺)</option>
                     </select>
                     <textarea id="appMessage" rows="3" placeholder="Neden ortak olmak istiyorsunuz? (İş tecrübeniz, sermaye durumunuz, hedefleriniz...)"></textarea>
                     <button onclick="submitApplication()">Başvuruyu Gönder</button>
@@ -269,10 +275,12 @@
             { id:3, name:"Dijital Pazarlama Eğitimi", type:"Hizmet", price:299, category:"Eğitim" }
         ];
         
+        // GÜNCELLENMİŞ ORTAKLIK PAKETLERİ
         let partnerships = JSON.parse(localStorage.getItem('ansPartnerships')) || [
-            { id:1, name:"Girişim Paketi", price:999, benefits:["Eğitimlere erişim","Topluluk ağı","Aylık bülten"], popular:false },
-            { id:2, name:"İş Ortağı Paketi", price:4999, benefits:["Tüm eğitimler","Özel etkinlikler","Danışmanlık hakkı","Komisyon fırsatları"], popular:true },
-            { id:3, name:"Elite Kurucu Paketi", price:24999, benefits:["Birebir strateji","Yatırım fırsatları","Kurucu toplantıları","Özel rozet"], popular:false }
+            { id:1, name:"🚀 Girişimci Paketi", price:1000, benefits:["Eğitimlere erişim","Topluluk ağı","Aylık bülten","WhatsApp desteği"], popular:false },
+            { id:2, name:"🤝 İş Ortaklığı Paketi", price:5000, benefits:["Tüm eğitimler","Özel etkinlikler","Danışmanlık hakkı","Komisyon fırsatları","Özel toplantılar"], popular:true },
+            { id:3, name:"💎 Yatırımcı Paketi", price:12000, benefits:["Premium eğitimler","Birebir strateji","Yatırım fırsatları","Kar payı","Öncelikli destek","Özel rozet"], popular:false },
+            { id:4, name:"👑 Elit Kurucu Paketi", price:24000, benefits:["Sınırsız danışmanlık","Hisse opsiyonu","Kurucu toplantıları","VIP etkinlikler","Özel WhatsApp grubu","İmtiyaz hakları"], popular:false }
         ];
         
         function saveProducts() { localStorage.setItem('ansProducts', JSON.stringify(products)); }
@@ -303,11 +311,11 @@
         
         function renderPackages() {
             let html = `<button class="add-btn" onclick="showAddPackageForm()"><i class="fas fa-plus"></i> Yeni Ortaklık Paketi Ekle</button>
-            <div class="products-grid">${partnerships.map(p=>`<div class="product-card"><div class="product-icon"><i class="fas fa-gem"></i></div><div class="product-name">${p.name}</div><div class="product-price">₺${p.price.toLocaleString()}</div><div>${p.benefits.slice(0,2).join(', ')}${p.benefits.length>2?'...':''}</div><button class="delete-btn" onclick="deletePartnership(${p.id})"><i class="fas fa-trash"></i> Sil</button></div>`).join('')}</div>
+            <div class="products-grid">${partnerships.map(p=>`<div class="product-card"><div class="product-icon"><i class="fas fa-gem"></i></div><div class="product-name">${p.name}</div><div class="product-price">₺${p.price.toLocaleString()}</div><div>${p.benefits.slice(0,3).join(', ')}${p.benefits.length>3?'...':''}</div><button class="delete-btn" onclick="deletePartnership(${p.id})"><i class="fas fa-trash"></i> Sil</button></div>`).join('')}</div>
             <div class="stat-card" style="margin-top:20px; text-align:center;"><button class="ortaklik-btn" onclick="showApplicationForm()"><i class="fas fa-handshake"></i> Hemen Ortak Ol!</button></div>`;
             document.getElementById('dynamicContent').innerHTML = html;
             document.getElementById('pageMainTitle').innerHTML = '💎 Ortaklık Paketleri';
-            document.getElementById('pageSubTitle').innerHTML = 'Yatırım ve İş Birliği Fırsatları';
+            document.getElementById('pageSubTitle').innerHTML = 'Kendinize uygun paketi seçin, Anadolu Network Devleti\'ne ortak olun!';
         }
         
         function renderProductsAdmin() {
