@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>ANS | Anadolu Network Devleti - Ortaklık Sistemi</title>
+    <title>ANS: ANADOLU NETWORK DEVLETİ | Anadolu Network Devleti - Stratejik Yönetim Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -34,11 +34,11 @@
         .user-avatar i { font-size: 40px; color: var(--bg-dark); }
         .user-name { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
         .user-rank { font-size: 12px; color: var(--gold); }
-        .nav-menu { padding: 16px; }
-        .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; margin-bottom: 2px; border-radius: 10px; cursor: pointer; transition: all 0.2s; color: var(--text-secondary); font-size: 13px; }
+        .nav-menu { padding: 16px; max-height: calc(100vh - 200px); overflow-y: auto; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; margin-bottom: 2px; border-radius: 10px; cursor: pointer; transition: all 0.2s; color: var(--text-secondary); font-size: 12px; }
         .nav-item:hover { background: rgba(212, 175, 122, 0.1); color: var(--text-primary); }
         .nav-item.active { background: rgba(212, 175, 122, 0.15); color: var(--gold); border-left: 3px solid var(--gold); }
-        .nav-item i { width: 22px; font-size: 16px; }
+        .nav-item i { width: 22px; font-size: 14px; }
         .main-content { flex: 1; margin-left: 280px; padding: 24px 32px; padding-bottom: 140px; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--gold); flex-wrap: wrap; gap: 16px; }
         .global-stats { display: flex; gap: 32px; }
@@ -87,6 +87,14 @@
         .footer-info { display: flex; flex-wrap: wrap; gap: 20px; font-size: 11px; color: var(--text-muted); }
         .footer-info a, .footer-info span { color: var(--text-muted); text-decoration: none; }
         .footer-info a:hover { color: var(--gold); }
+        .ai-chat-card { background: linear-gradient(135deg, #0D2B4E, #0A192F); border: 1px solid var(--gold); border-radius: 24px; padding: 24px; margin-top: 24px; }
+        .ai-messages { max-height: 250px; overflow-y: auto; margin-bottom: 16px; }
+        .ai-message { margin-bottom: 12px; display: flex; gap: 10px; }
+        .ai-message.bot .msg-bubble { background: var(--bg-elevated); border: 1px solid var(--border); }
+        .ai-message.user .msg-bubble { background: var(--gold); color: var(--bg-dark); margin-left: auto; }
+        .msg-bubble { max-width: 80%; padding: 10px 14px; border-radius: 16px; font-size: 13px; }
+        .quick-ai-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .quick-ai { background: var(--bg-elevated); border: 1px solid var(--gold); padding: 6px 12px; border-radius: 20px; color: var(--gold); cursor: pointer; font-size: 11px; }
         @media (max-width: 1024px) { .sidebar { transform: translateX(-100%); } .sidebar.mobile-open { transform: translateX(0); } .main-content { margin-left: 0; } .footer { left: 0; } .mobile-menu-btn { display: flex; } }
         @media (max-width: 640px) { .main-content { padding: 16px; } .footer { flex-direction: column; text-align: center; } .top-bar { flex-direction: column; } }
         .mobile-menu-btn { display: none; background: var(--bg-card); width: 44px; height: 44px; border-radius: 12px; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--gold); }
@@ -95,6 +103,7 @@
         ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .ortaklik-btn { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--bg-dark); border: none; padding: 12px 24px; border-radius: 40px; font-weight: bold; cursor: pointer; margin: 10px; font-size: 14px; }
+        .section-title { color: var(--gold); margin-bottom: 16px; font-size: 18px; border-left: 3px solid var(--gold); padding-left: 12px; }
     </style>
 </head>
 <body>
@@ -118,12 +127,31 @@
             <div class="user-profile"><div class="user-avatar"><i class="fas fa-user-tie"></i></div><div class="user-name">Orhan BOYRAZ</div><div class="user-rank">🏛️ Yönetici / Chancellor</div></div>
             <nav class="nav-menu">
                 <div class="nav-item active" data-page="command"><i class="fas fa-chart-line"></i><span>🎯 Yönetici Komuta</span></div>
+                <div class="nav-item" data-page="vision"><i class="fas fa-eye"></i><span>📜 Vizyon & Misyon</span></div>
+                <div class="nav-item" data-page="okr"><i class="fas fa-bullseye"></i><span>📊 OKR & KPI</span></div>
+                <div class="nav-item" data-page="finance"><i class="fas fa-coins"></i><span>💰 Finans Kontrol</span></div>
+                <div class="nav-item" data-page="portfolio"><i class="fas fa-chart-pie"></i><span>📈 Yatırım Portföyü</span></div>
+                <div class="nav-item" data-page="familyoffice"><i class="fas fa-home"></i><span>🏛️ Aile Ofisi</span></div>
+                <div class="nav-item" data-page="community"><i class="fas fa-users"></i><span>👥 Topluluk & Üyelik</span></div>
+                <div class="nav-item" data-page="crm"><i class="fas fa-address-card"></i><span>📇 CRM & İlişki</span></div>
+                <div class="nav-item" data-page="education"><i class="fas fa-graduation-cap"></i><span>🎓 Eğitim Akademisi</span></div>
+                <div class="nav-item" data-page="health"><i class="fas fa-hospital"></i><span>🏥 Sağlık & Termal</span></div>
+                <div class="nav-item" data-page="agriculture"><i class="fas fa-tractor"></i><span>🌾 Tarım & Gıda</span></div>
+                <div class="nav-item" data-page="ecommerce"><i class="fas fa-shopping-cart"></i><span>🛍️ E-Ticaret & İhracat</span></div>
+                <div class="nav-item" data-page="realestate"><i class="fas fa-building"></i><span>🏗️ Gayrimenkul</span></div>
+                <div class="nav-item" data-page="energy"><i class="fas fa-solar-panel"></i><span>⚡ Enerji & Madencilik</span></div>
+                <div class="nav-item" data-page="media"><i class="fas fa-tv"></i><span>📺 Medya & Yayıncılık</span></div>
+                <div class="nav-item" data-page="ailab"><i class="fas fa-microchip"></i><span>🤖 Yapay Zeka Lab</span></div>
+                <div class="nav-item" data-page="risk"><i class="fas fa-shield-alt"></i><span>⚠️ Risk Yönetimi</span></div>
+                <div class="nav-item" data-page="legal"><i class="fas fa-gavel"></i><span>⚖️ Hukuk & Uyum</span></div>
+                <div class="nav-item" data-page="hr"><i class="fas fa-users"></i><span>👔 İK & Yetenek</span></div>
+                <div class="nav-item" data-page="partnerships"><i class="fas fa-handshake"></i><span>🤝 Stratejik Ortaklıklar</span></div>
+                <div class="nav-item" data-page="foundation"><i class="fas fa-heart"></i><span>🏛️ Vakıf & Sosyal Etki</span></div>
+                <div class="nav-item" data-page="civilization"><i class="fas fa-crown"></i><span>🏆 Medeniyet Endeksi</span></div>
+                <div class="nav-item" data-page="multigen"><i class="fas fa-tree"></i><span>👨‍👩‍👧‍👦 Çok Nesil Servet</span></div>
                 <div class="nav-item" data-page="applications"><i class="fas fa-file-signature"></i><span>📋 Ortaklık Başvuruları</span></div>
                 <div class="nav-item" data-page="packages"><i class="fas fa-gem"></i><span>💎 Ortaklık Paketleri</span></div>
                 <div class="nav-item" data-page="admin"><i class="fas fa-lock"></i><span>🔐 Yönetim Paneli</span></div>
-                <div class="nav-item" data-page="finance"><i class="fas fa-coins"></i><span>💰 Finans & Sermaye</span></div>
-                <div class="nav-item" data-page="community"><i class="fas fa-users"></i><span>👥 Topluluk</span></div>
-                <div class="nav-item" data-page="civilization"><i class="fas fa-crown"></i><span>🏆 Medeniyet Endeksi</span></div>
                 <div class="nav-item" data-page="logout"><i class="fas fa-sign-out-alt"></i><span>🚪 Çıkış</span></div>
             </nav>
         </aside>
@@ -131,26 +159,34 @@
             <div class="top-bar">
                 <div style="display: flex; align-items: center; gap: 16px;">
                     <div class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></div>
-                    <div class="page-title"><h1 id="pageMainTitle">Yönetici Komuta Merkezi</h1><p id="pageSubTitle">Anadolu Network Devleti</p></div>
+                    <div class="page-title"><h1 id="pageMainTitle">Yönetici Komuta Merkezi</h1><p id="pageSubTitle">Anadolu Network Devleti Stratejik Yönetim Dashboard</p></div>
                 </div>
                 <div class="global-stats"><div class="global-stat"><div class="global-stat-value" id="civilScore">94.2</div><div class="global-stat-label">Medeniyet Gücü</div></div><div class="global-stat"><div class="global-stat-value">$2.47B</div><div class="global-stat-label">Toplam Varlık</div></div><div class="global-stat"><div class="global-stat-value">$124.8M</div><div class="global-stat-label">Aylık Nakit</div></div></div>
             </div>
             <div id="dynamicContent"></div>
+            
+            <!-- AI Chat Card -->
+            <div class="ai-chat-card" id="aiChatCard">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;"><i class="fas fa-robot" style="font-size: 28px; color: var(--gold);"></i><div><h3 style="font-size: 16px;">🤖 ANS AI Danışmanı (Gemini AI)</h3><p style="font-size: 11px; color: var(--text-muted);">Stratejik kararlarınız için yapay zeka desteği</p></div></div>
+                <div class="ai-messages" id="aiMessages"><div class="ai-message bot"><div class="msg-bubble">Merhaba Orhan Bey! Ben ANS AI Danışmanıyım. Varlık yönetimi, strateji veya yatırım konularında size nasıl yardımcı olabilirim? 🏛️</div></div></div>
+                <div style="display: flex; gap: 10px;"><input type="text" id="aiInput" placeholder="AI danışmanına sor..." style="flex:1; padding: 10px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 24px; color: white;"><button onclick="sendAIMessage()" style="background: var(--gold); border: none; border-radius: 50%; width: 44px; cursor: pointer;"><i class="fas fa-paper-plane"></i></button></div>
+                <div class="quick-ai-buttons"><button class="quick-ai" onclick="quickAI('Portföy dağılımım nasıl olmalı?')">📊 Portföy dağılımı</button><button class="quick-ai" onclick="quickAI('Risk yönetimi stratejisi nedir?')">⚠️ Risk yönetimi</button><button class="quick-ai" onclick="quickAI('Nasıl yatırım yapmalıyım?')">💰 Yatırım tavsiyesi</button><button class="quick-ai" onclick="quickAI('Medeniyet gücü nedir?')">🏆 Medeniyet gücü</button></div>
+            </div>
         </main>
     </div>
 
     <div class="footer" id="footer" style="display: none;">
         <div class="footer-info">
-            <span><i class="fas fa-user"></i> Orhan BOYRAZ</span>
+            <span><i class="fas fa-user"></i>CFO.Müh. Orhan BOYRAZ</span>
             <span><i class="fab fa-whatsapp"></i> 0540 966 66 02</span>
             <span><i class="fas fa-envelope"></i> orhanboyraz0216@gmail.com</span>
             <span><i class="fas fa-map-marker-alt"></i> Bursa / Türkiye</span>
             <span><i class="fas fa-globe"></i> <a href="https://anadolunetwork.tr/" target="_blank" style="color: var(--gold);">anadolunetwork.tr</a></span>
         </div>
-        <button class="whatsapp-btn" onclick="window.open('https://wa.me/905409666602?text=Sayın Orhan BOYRAZ, Anadolu Network Devleti ortaklık başvurusu hakkında bilgi almak istiyorum.','_blank')" style="background: var(--whatsapp); color: white; padding: 8px 20px; border-radius: 50px; border: none; cursor: pointer;"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+        <button class="whatsapp-btn" onclick="window.open('https://wa.me/905409666002?text=Sayın Orhan BOYRAZ, Anadolu Network Devleti hakkında bilgi almak istiyorum.','_blank')" style="background: var(--whatsapp); color: white; padding: 8px 20px; border-radius: 50px; border: none; cursor: pointer;"><i class="fab fa-whatsapp"></i> WhatsApp</button>
     </div>
 
-    <div class="whatsapp-float" onclick="window.open('https://wa.me/905409666002?text=Ortaklık başvurusu yapmak istiyorum.','_blank')"><i class="fab fa-whatsapp" style="font-size: 28px;"></i></div>
+    <div class="whatsapp-float" onclick="window.open('https://wa.me/905409666602?text=Ortaklık başvurusu yapmak istiyorum.','_blank')"><i class="fab fa-whatsapp" style="font-size: 28px;"></i></div>
 
     <div id="applicationModal" class="modal"><div class="modal-content" id="applicationModalContent"></div></div>
     <div id="addModal" class="modal"><div class="modal-content" id="addModalContent"></div></div>
@@ -158,11 +194,43 @@
     <script>
         let isLoggedIn = false;
         let adminPassword = "admin123";
-        
-        // Başvurular için localStorage
         let applications = JSON.parse(localStorage.getItem('ansApplications')) || [];
         
         function handleLogin() { isLoggedIn = true; document.getElementById('loginOverlay').style.display = 'none'; document.getElementById('appContainer').style.display = 'flex'; document.getElementById('footer').style.display = 'flex'; renderCommand(); }
+        
+        // Gemini AI API Simülasyonu (Gerçek API'ye hazır)
+        async function callGeminiAPI(prompt) {
+            try {
+                // Gerçek Gemini API için API anahtarınızı ekleyin:
+                // const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=YOUR_API_KEY`, {
+                //     method: 'POST', headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                // });
+                // const data = await response.json(); return data.candidates[0].content.parts[0].text;
+                
+                // Simülasyon - Premium yanıtlar
+                const lowerPrompt = prompt.toLowerCase();
+                if(lowerPrompt.includes("portföy")) return "🏛️ ANS Stratejik Öneri: Portföyünüzü %35 hisse senedi (büyüme odaklı), %25 özel sermaye, %20 gayrimenkul, %12 sabit getirili ve %8 alternatif varlıklar (kripto, altın) şeklinde dağıtmanızı öneririm. Bu dağılım uzun vadede ortalama %15-18 getiri potansiyeli sunar.";
+                if(lowerPrompt.includes("risk")) return "⚠️ ANS Risk Analizi: Mevcut risk skorunuz 22/100 ile düşük seviyede. Önerilen aksiyonlar: 1) Piyasa riskine karşı hedging stratejisi 2) Operasyonel risk için iç denetim 3) İtibar riski için kriz iletişim ekibi.";
+                if(lowerPrompt.includes("medeniyet")) return "🏆 Medeniyet Gücü Endeksi: Bilgi × Kurumlar × Liderlik × Sermaye × Kültür × Nesiller. Şu anki skorunuz 94.2/100 ile 'Gelişmiş Medeniyet' seviyesindedir.";
+                if(lowerPrompt.includes("yatırım")) return "💰 ANS Yatırım Stratejisi: Önümüzdeki 12 ayda odaklanmanız gereken alanlar: 1) Yenilenebilir enerji projeleri (GES, RES), 2) Dijital sağlık platformları,3) Termal Sağlık & Tatil Köyü, 4) Tarım teknolojileri.";
+                return `🏛️ ANS AI Danışmanı: "${prompt}" konusunda size özel bir strateji raporu hazırlayabilirim. Detaylı analiz için ekibimizle görüşme ayarlayabiliriz.`;
+            } catch(e) { return "API bağlantısında sorun oluştu. Lütfen daha sonra tekrar deneyin."; }
+        }
+        
+        async function sendAIMessage() {
+            let input = document.getElementById('aiInput');
+            let msg = input.value.trim();
+            if(!msg) return;
+            let messagesDiv = document.getElementById('aiMessages');
+            messagesDiv.innerHTML += `<div class="ai-message user"><div class="msg-bubble">${msg}</div></div>`;
+            input.value = '';
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            let response = await callGeminiAPI(msg);
+            messagesDiv.innerHTML += `<div class="ai-message bot"><div class="msg-bubble">🤖 ${response}</div></div>`;
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        async function quickAI(q) { document.getElementById('aiInput').value = q; sendAIMessage(); }
         
         // Ortaklık Başvuru Formu
         function showApplicationForm() {
@@ -194,142 +262,95 @@
             let phone = document.getElementById('appPhone').value;
             let packageSel = document.getElementById('appPackage').value;
             let message = document.getElementById('appMessage').value;
-            
             if(!name || !email || !phone) { alert("Lütfen tüm zorunlu alanları doldurun!"); return; }
-            
-            let newApp = {
-                id: Date.now(),
-                name: name,
-                email: email,
-                phone: phone,
-                package: packageSel,
-                message: message,
-                date: new Date().toLocaleString('tr-TR'),
-                status: "Beklemede"
-            };
+            let newApp = { id: Date.now(), name, email, phone, package: packageSel, message, date: new Date().toLocaleString('tr-TR'), status: "Beklemede" };
             applications.push(newApp);
             localStorage.setItem('ansApplications', JSON.stringify(applications));
             closeApplicationModal();
-            
-            // WhatsApp ile bilgilendirme
-            let whatsappMsg = `Yeni Ortaklık Başvurusu!\nAd: ${name}\nTel: ${phone}\nPaket: ${packageSel}\nMesaj: ${message}`;
-            window.open(`https://wa.me/905409666002?text=${encodeURIComponent(whatsappMsg)}`, '_blank');
+            window.open(`https://wa.me/905409666602?text=Yeni Ortaklık Başvurusu! Ad: ${name} Tel: ${phone} Paket: ${packageSel}`, '_blank');
             alert("Başvurunuz alındı! En kısa sürede size dönüş yapılacaktır.");
         }
         
-        // Başvuruları Listeleme (Yönetici Paneli)
         function renderApplications() {
             let pendingApps = applications.filter(a => a.status === "Beklemede");
-            let approvedApps = applications.filter(a => a.status === "Onaylandı");
-            let rejectedApps = applications.filter(a => a.status === "Reddedildi");
-            
-            let html = `<div class="stats-grid">
-                <div class="stat-card"><div class="stat-value">${applications.length}</div><div>Toplam Başvuru</div></div>
-                <div class="stat-card"><div class="stat-value">${pendingApps.length}</div><div>Bekleyen</div></div>
-                <div class="stat-card"><div class="stat-value">${approvedApps.length}</div><div>Onaylanan</div></div>
-                <div class="stat-card"><div class="stat-value">${rejectedApps.length}</div><div>Reddedilen</div></div>
-            </div>
-            <div class="stat-card"><h3 style="color:var(--gold);">📋 Tüm Başvurular</h3>
-            ${applications.length === 0 ? '<p style="text-align:center; padding:40px;">Henüz başvuru yok.</p>' : applications.map(app => `
-                <div class="application-item">
-                    <div style="display:flex; justify-content:space-between; align-items:start;">
-                        <div><strong>${app.name}</strong><br><small>${app.email} | ${app.phone}</small><br><small>📅 ${app.date}</small><br><small>📦 ${app.package || "Seçilmedi"}</small></div>
-                        <div><span class="${app.status === 'Beklemede' ? 'badge-warning' : (app.status === 'Onaylandı' ? 'badge-success' : 'badge-warning')}">${app.status}</span></div>
-                    </div>
-                    <p style="margin-top:8px; font-size:12px;">${app.message.substring(0,100)}${app.message.length>100?'...':''}</p>
-                    <div style="margin-top:10px; display:flex; gap:8px;">
-                        <button class="add-btn" style="padding:5px 12px; font-size:11px; background:var(--success);" onclick="updateApplicationStatus(${app.id}, 'Onaylandı')"><i class="fas fa-check"></i> Onayla</button>
-                        <button class="add-btn" style="padding:5px 12px; font-size:11px; background:var(--danger);" onclick="updateApplicationStatus(${app.id}, 'Reddedildi')"><i class="fas fa-times"></i> Reddet</button>
-                        <button class="add-btn" style="padding:5px 12px; font-size:11px;" onclick="window.open('https://wa.me/90${app.phone.replace(/\\D/g,'')}?text=Sayın ${app.name}, Anadolu Network Devleti ortaklık başvurunuz değerlendirilmeye alınmıştır. Detaylı bilgi için sizi arayacağız.','_blank')"><i class="fab fa-whatsapp"></i> İletişim</button>
-                    </div>
-                </div>
-            `).join('')}</div>`;
+            let html = `<div class="stats-grid"><div class="stat-card"><div class="stat-value">${applications.length}</div><div>Toplam Başvuru</div></div><div class="stat-card"><div class="stat-value">${pendingApps.length}</div><div>Bekleyen</div></div></div>
+            <div class="stat-card"><h3 style="color:var(--gold);">📋 Tüm Başvurular</h3>${applications.length === 0 ? '<p style="text-align:center; padding:40px;">Henüz başvuru yok.</p>' : applications.map(app => `<div class="application-item"><div><strong>${app.name}</strong><br><small>${app.email} | ${app.phone}</small><br><small>📅 ${app.date}</small><br><small>📦 ${app.package}</small><span class="badge-warning" style="margin-left:10px;">${app.status}</span></div><p style="margin-top:8px;">${app.message.substring(0,100)}</p><div style="margin-top:10px; display:flex; gap:8px;"><button class="add-btn" style="padding:5px 12px; background:var(--success);" onclick="updateAppStatus(${app.id}, 'Onaylandı')">Onayla</button><button class="add-btn" style="padding:5px 12px; background:var(--danger);" onclick="updateAppStatus(${app.id}, 'Reddedildi')">Reddet</button><button class="add-btn" style="padding:5px 12px;" onclick="window.open('https://wa.me/90${app.phone.replace(/\D/g,'')}?text=Sayın ${app.name}, başvurunuz değerlendiriliyor.','_blank')">WhatsApp</button></div></div>`).join('')}</div>`;
             document.getElementById('dynamicContent').innerHTML = html;
             document.getElementById('pageMainTitle').innerHTML = '📋 Ortaklık Başvuruları';
-            document.getElementById('pageSubTitle').innerHTML = 'Yeni ortak adaylarını yönetin';
         }
         
-        function updateApplicationStatus(id, status) {
+        function updateAppStatus(id, status) {
             let app = applications.find(a => a.id === id);
-            if(app) {
-                app.status = status;
-                localStorage.setItem('ansApplications', JSON.stringify(applications));
-                renderApplications();
-                showNotification(`${app.name} başvurusu ${status === 'Onaylandı' ? 'onaylandı' : 'reddedildi'}`);
-                
-                // WhatsApp bilgilendirme
-                let msg = status === 'Onaylandı' ? `Sayın ${app.name}, ortaklık başvurunuz ONAYLANDI! Detaylar için sizi arayacağız. 🎉` : `Sayın ${app.name}, başvurunuz maalesef şu aşamada uygun bulunmadı. İlerleyen dönemlerde tekrar değerlendirebiliriz.`;
-                window.open(`https://wa.me/90${app.phone.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
-            }
+            if(app) { app.status = status; localStorage.setItem('ansApplications', JSON.stringify(applications)); renderApplications(); showNotification(`${app.name} başvurusu ${status}`); }
         }
         
         // Admin kontrolü
-        function checkAdminAccess(callback) { let pwd = prompt("🔐 YÖNETİM PANELİ ERİŞİMİ\n\nLütfen yönetici şifresini girin:"); if(pwd === adminPassword) callback(); else if(pwd !== null) alert("❌ Hatalı şifre!"); }
+        function checkAdminAccess(callback) { let pwd = prompt("🔐 YÖNETİM PANELİ ERİŞİMİ\nŞifre:"); if(pwd === adminPassword) callback(); else if(pwd !== null) alert("❌ Hatalı şifre!"); }
         
         // Data
         let ansData = { totalAssets: 2470000000, netWorth: 1890000000, monthlyCashFlow: 124800000, annualGrowth: 23.4, portfolioReturn: 18.7, riskScore: 22, members: 12470, ltv: 12400, cac: 340, nps: 76, students: 3450, patients: 12800, ecommerceVolume: 45600000, realEstateValue: 890000000, esgScore: 88, sustainabilityIndex: 82, civilizationPower: 94.2 };
         
         let products = JSON.parse(localStorage.getItem('ansProducts')) || [
-            { id:1, name:"Premium Kolajen Peptit", type:"Ürün", price:49, category:"Sağlık" },
-            { id:2, name:"Yatırım Danışmanlığı", type:"Danışmanlık", price:500, category:"Finans" },
-            { id:3, name:"Dijital Pazarlama Eğitimi", type:"Hizmet", price:299, category:"Eğitim" }
+            { id:1, name:"Premium Kolajen Peptit", type:"Ürün", price:349, category:"Sağlık" },
+            { id:2, name:"Yatırım Danışmanlığı", type:"Danışmanlık", price:1000, category:"Finans" },
+            { id:3, name:"Dijital Pazarlama Eğitimi", type:"Hizmet", price:1500, category:"Eğitim" }
         ];
         
-        // GÜNCELLENMİŞ ORTAKLIK PAKETLERİ
         let partnerships = JSON.parse(localStorage.getItem('ansPartnerships')) || [
-            { id:1, name:"🚀 Girişimci Paketi", price:999, benefits:["Eğitimlere erişim","Topluluk ağı","Aylık bülten","WhatsApp desteği"], popular:false },
-            { id:2, name:"🤝 İş Ortaklığı Paketi", price:4999, benefits:["Tüm eğitimler","Özel etkinlikler","Danışmanlık hakkı","Komisyon fırsatları","Özel toplantılar"], popular:true },
-            { id:3, name:"💎 Yatırımcı Paketi", price:9999, benefits:["Premium eğitimler","Birebir strateji","Yatırım fırsatları","Kar payı","Öncelikli destek","Özel rozet"], popular:false },
-            { id:4, name:"👑 Elit Kurucu Paketi", price:24999, benefits:["Sınırsız danışmanlık","Hisse opsiyonu","Kurucu toplantıları","VIP etkinlikler","Özel WhatsApp grubu","İmtiyaz hakları"], popular:false }
+            { id:1, name:"🚀 Girişimci Paketi", price:1000, benefits:["Eğitimlere erişim","Topluluk ağı","Aylık bülten","WhatsApp desteği"] },
+            { id:2, name:"🤝 İş Ortaklığı Paketi", price:5000, benefits:["Tüm eğitimler","Özel etkinlikler","Danışmanlık hakkı","Komisyon fırsatları"] },
+            { id:3, name:"💎 Yatırımcı Paketi", price:12000, benefits:["Premium eğitimler","Birebir strateji","Yatırım fırsatları","Kar payı","Özel rozet"] },
+            { id:4, name:"👑 Elit Kurucu Paketi", price:24000, benefits:["Sınırsız danışmanlık","Hisse opsiyonu","Kurucu toplantıları","VIP etkinlikler","İmtiyaz hakları"] }
         ];
         
         function saveProducts() { localStorage.setItem('ansProducts', JSON.stringify(products)); }
         function savePartnerships() { localStorage.setItem('ansPartnerships', JSON.stringify(partnerships)); }
         
-        function showAddForm(type) { checkAdminAccess(() => { document.getElementById('addModalContent').innerHTML = `<div class="modal-header"><h2>➕ Yeni ${type} Ekle</h2><button class="close-modal" onclick="closeAddModal()">×</button></div><div class="add-form"><input type="text" id="itemName" placeholder="Ad"><input type="text" id="itemType" placeholder="Tür (Ürün/Hizmet/Danışmanlık)"><input type="number" id="itemPrice" placeholder="Fiyat (₺)"><input type="text" id="itemCategory" placeholder="Kategori"><button onclick="addItem()">Ekle</button></div>`; document.getElementById('addModal').style.display = 'flex'; }); }
+        function showAddForm() { checkAdminAccess(() => { document.getElementById('addModalContent').innerHTML = `<div class="modal-header"><h2>➕ Yeni Ürün/Hizmet/Danışmanlık</h2><button class="close-modal" onclick="closeAddModal()">×</button></div><div class="add-form"><input type="text" id="itemName" placeholder="Ad"><input type="text" id="itemType" placeholder="Tür (Ürün/Hizmet/Danışmanlık)"><input type="number" id="itemPrice" placeholder="Fiyat (₺)"><input type="text" id="itemCategory" placeholder="Kategori"><button onclick="addItem()">Ekle</button></div>`; document.getElementById('addModal').style.display = 'flex'; }); }
         function addItem() { let newItem = { id: Date.now(), name: document.getElementById('itemName').value, type: document.getElementById('itemType').value, price: parseInt(document.getElementById('itemPrice').value), category: document.getElementById('itemCategory').value }; products.push(newItem); saveProducts(); closeAddModal(); renderProductsAdmin(); showNotification(`${newItem.name} eklendi!`); }
-        function deleteItem(id) { checkAdminAccess(() => { if(confirm('Silmek istediğinize emin misiniz?')) { products = products.filter(p => p.id !== id); saveProducts(); renderProductsAdmin(); showNotification('Ürün silindi!'); } }); }
-        function showAddPackageForm() { checkAdminAccess(() => { document.getElementById('addModalContent').innerHTML = `<div class="modal-header"><h2>➕ Yeni Ortaklık Paketi</h2><button class="close-modal" onclick="closeAddModal()">×</button></div><div class="add-form"><input type="text" id="partName" placeholder="Paket Adı"><input type="number" id="partPrice" placeholder="Fiyat (₺)"><textarea id="partBenefits" placeholder="Faydalar (virgülle ayırın)"></textarea><button onclick="addPartnership()">Ekle</button></div>`; document.getElementById('addModal').style.display = 'flex'; }); }
-        function addPartnership() { let newP = { id: Date.now(), name: document.getElementById('partName').value, price: parseInt(document.getElementById('partPrice').value), benefits: document.getElementById('partBenefits').value.split(','), popular: false }; partnerships.push(newP); savePartnerships(); closeAddModal(); renderPackages(); showNotification('Paket eklendi!'); }
+        function deleteItem(id) { checkAdminAccess(() => { if(confirm('Sil?')) { products = products.filter(p => p.id !== id); saveProducts(); renderProductsAdmin(); showNotification('Silindi!'); } }); }
+        function showAddPackageForm() { checkAdminAccess(() => { document.getElementById('addModalContent').innerHTML = `<div class="modal-header"><h2>➕ Yeni Ortaklık Paketi</h2><button class="close-modal" onclick="closeAddModal()">×</button></div><div class="add-form"><input type="text" id="partName" placeholder="Paket Adı"><input type="number" id="partPrice" placeholder="Fiyat (₺)"><textarea id="partBenefits" placeholder="Faydalar (virgülle)"></textarea><button onclick="addPartnership()">Ekle</button></div>`; document.getElementById('addModal').style.display = 'flex'; }); }
+        function addPartnership() { let newP = { id: Date.now(), name: document.getElementById('partName').value, price: parseInt(document.getElementById('partPrice').value), benefits: document.getElementById('partBenefits').value.split(',') }; partnerships.push(newP); savePartnerships(); closeAddModal(); renderPackages(); showNotification('Paket eklendi!'); }
         function deletePartnership(id) { checkAdminAccess(() => { if(confirm('Paketi sil?')) { partnerships = partnerships.filter(p => p.id !== id); savePartnerships(); renderPackages(); showNotification('Paket silindi!'); } }); }
         function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
         function showNotification(msg){ let n=document.createElement('div'); n.style.cssText='position:fixed;bottom:100px;right:20px;background:var(--gold);color:var(--bg-dark);padding:12px 24px;border-radius:12px;z-index:1000;animation:slideIn 0.3s'; n.innerHTML=msg; document.body.appendChild(n); setTimeout(()=>n.remove(),3000); }
         
-        // Dashboard
-        function renderCommand() {
-            let html = `<div class="stats-grid"><div class="stat-card"><div class="stat-header"><span class="stat-title">Medeniyet Gücü</span><div class="stat-icon"><i class="fas fa-crown"></i></div></div><div class="stat-value">${ansData.civilizationPower}/100</div><div class="progress-bar"><div class="progress-fill" style="width:${ansData.civilizationPower}%"></div></div></div>
-            <div class="stat-card"><div class="stat-header"><span class="stat-title">Toplam Varlık</span></div><div class="stat-value">$${(ansData.totalAssets/1000000).toFixed(0)}M</div></div>
-            <div class="stat-card"><div class="stat-header"><span class="stat-title">Aylık Nakit</span></div><div class="stat-value">$${(ansData.monthlyCashFlow/1000000).toFixed(0)}M</div></div>
-            <div class="stat-card"><div class="stat-header"><span class="stat-title">Topluluk Üyesi</span></div><div class="stat-value">${ansData.members.toLocaleString()}</div></div></div>
-            <div class="stat-card"><h3 style="color:var(--gold);">📈 Portföy Getirisi</h3><canvas id="portChart" height="150"></canvas></div>
-            <div class="stat-card" style="margin-top:20px; text-align:center;"><button class="ortaklik-btn" onclick="showApplicationForm()"><i class="fas fa-handshake"></i> Ortak Olmak İstiyorum</button><p style="margin-top:10px; font-size:12px;">Anadolu Network Devleti'ne ortak olun, birlikte büyüyelim!</p></div>`;
-            document.getElementById('dynamicContent').innerHTML = html;
-            document.getElementById('pageMainTitle').innerHTML = '🎯 Yönetici Komuta Merkezi';
-            document.getElementById('pageSubTitle').innerHTML = 'Gerçek Zamanlı Stratejik İstihbarat';
-            setTimeout(()=>{ let ctx=document.getElementById('portChart')?.getContext('2d'); if(ctx) new Chart(ctx,{ type:'line', data:{ labels:['Oca','Şub','Mar','Nis','May','Haz'], datasets:[{ label:'Getiri %', data:[12,14,16,15,18,20], borderColor:'#D4AF7A', fill:true }] }, options:{ responsive:true } }); },100);
-        }
+        // Tüm Modüller
+        function renderCommand() { let html=`<div class="stats-grid"><div class="stat-card"><div class="stat-header"><span class="stat-title">Medeniyet Gücü</span><div class="stat-icon"><i class="fas fa-crown"></i></div></div><div class="stat-value">${ansData.civilizationPower}/100</div><div class="progress-bar"><div class="progress-fill" style="width:${ansData.civilizationPower}%"></div></div></div><div class="stat-card"><div class="stat-value">$${(ansData.totalAssets/1000000).toFixed(0)}M</div><div>Toplam Varlık</div></div><div class="stat-card"><div class="stat-value">$${(ansData.monthlyCashFlow/1000000).toFixed(0)}M</div><div>Aylık Nakit</div></div><div class="stat-card"><div class="stat-value">${ansData.members.toLocaleString()}</div><div>Topluluk Üyesi</div></div></div><div class="stat-card"><h3 style="color:var(--gold);">📈 Portföy Getirisi</h3><canvas id="portChart" height="150"></canvas></div><div class="stat-card" style="margin-top:20px; text-align:center;"><button class="ortaklik-btn" onclick="showApplicationForm()"><i class="fas fa-handshake"></i> Ortak Olmak İstiyorum</button></div>`; document.getElementById('dynamicContent').innerHTML = html; document.getElementById('pageMainTitle').innerHTML = '🎯 Yönetici Komuta Merkezi'; setTimeout(()=>{ let ctx=document.getElementById('portChart')?.getContext('2d'); if(ctx) new Chart(ctx,{ type:'line', data:{ labels:['Oca','Şub','Mar','Nis','May','Haz'], datasets:[{ label:'Getiri %', data:[12,14,16,15,18,20], borderColor:'#D4AF7A', fill:true }] }, options:{ responsive:true } }); },100); }
+        function renderVision() { document.getElementById('dynamicContent').innerHTML = `<div class="stat-card"><h2 style="color:var(--gold);">📜 Vizyon & Misyon</h2><p style="margin-top:20px;"><strong>Vizyon:</strong> Anadolu merkezli, teknoloji destekli, sermaye odaklı, eğitim ve sağlıkla güçlendirilmiş, nesiller boyu yaşayacak küresel bir ekonomik ve toplumsal medeniyet ekosistemi oluşturmak.</p><p style="margin-top:20px;"><strong>Misyon:</strong> Topluluk × Güven × Sermaye × Teknoloji × Zaman formülü ile sürdürülebilir refah ve medeniyet inşa etmek.</p></div>`; document.getElementById('pageMainTitle').innerHTML = '📜 Vizyon & Misyon Paneli'; }
+        function renderOKR() { let html=`<div class="stat-card"><h3 style="color:var(--gold);">📊 OKR Yönetim Sistemi</h3>${[['Varlık Büyütme',82,'$3B'],['Topluluk Üyesi',83,'15,000'],['Medeniyet Gücü',94,'95/100'],['Portföy Getirisi',85,'%20']].map(o=>`<div><div style="display:flex;justify-content:space-between"><span>🎯 ${o[0]}</span><span>${o[1]}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${o[1]}%"></div></div><div style="font-size:11px">Hedef: ${o[2]}</div></div>`).join('')}</div>`; document.getElementById('dynamicContent').innerHTML = html; document.getElementById('pageMainTitle').innerHTML = '📊 OKR & KPI Yönetimi'; }
+        function renderFinance() { document.getElementById('dynamicContent').innerHTML = `<div class="stats-grid"><div class="stat-card"><div class="stat-value">$${(ansData.netWorth/1000000).toFixed(0)}M</div><div>Net Servet</div></div><div class="stat-card"><div class="stat-value">${ansData.portfolioReturn}%</div><div>Portföy Getirisi</div></div><div class="stat-card"><div class="stat-value">%${ansData.annualGrowth}</div><div>Yıllık Büyüme</div></div></div><div class="stat-card"><canvas id="financeChart" height="200"></canvas></div>`; document.getElementById('pageMainTitle').innerHTML = '💰 Finans Kontrol Kulesi'; setTimeout(()=>{ let ctx=document.getElementById('financeChart')?.getContext('2d'); if(ctx) new Chart(ctx,{ type:'doughnut', data:{ labels:['Hisse Senedi 35%','Özel Sermaye 25%','Gayrimenkul 20%','Sabit Getiri 12%','Alternatif 8%'], datasets:[{ data:[35,25,20,12,8], backgroundColor:['#D4AF7A','#B8925A','#9B7B45','#7D6030','#604820'] }] }, options:{ responsive:true } }); },100); }
+        function renderPortfolio() { document.getElementById('dynamicContent').innerHTML = `<div class="stats-grid"><div class="stat-card"><div class="stat-value">$247M</div><div>Hisse Senedi</div></div><div class="stat-card"><div class="stat-value">$176M</div><div>Özel Sermaye</div></div><div class="stat-card"><div class="stat-value">$141M</div><div>Gayrimenkul</div></div><div class="stat-card"><div class="stat-value">$85M</div><div>Sabit Getiri</div></div></div><div class="stat-card"><h3 style="color:var(--gold);">📈 Yatırım Getirisi Analizi</h3><canvas id="returnChart" height="200"></canvas></div>`; document.getElementById('pageMainTitle').innerHTML = '📈 Yatırım Portföyü'; setTimeout(()=>{ let ctx=document.getElementById('returnChart')?.getContext('2d'); if(ctx) new Chart(ctx,{ type:'line', data:{ labels:['2020','2021','2022','2023','2024'], datasets:[{ label:'Yıllık Getiri %', data:[12,18,15,22,24], borderColor:'#D4AF7A', fill:true }] }, options:{ responsive:true } }); },100); }
+        function renderFamilyOffice() { document.getElementById('dynamicContent').innerHTML = `<div class="stat-card"><h3 style="color:var(--gold);">🏛️ Aile Ofisi Paneli</h3><div class="stats-grid"><div class="stat-card">3. Nesil Planlaması Aktif</div><div class="stat-card">Trust Yapısı Kuruldu</div><div class="stat-card">Aile Anayasası Hazır</div><div class="stat-card">Vergi Optimizasyonu</div></div><div class="progress-bar"><div class="progress-fill" style="width:85%"></div><div>Nesil Geçiş Hazırlığı: %85</div></div></div>`; document.getElementById('pageMainTitle').innerHTML = '🏛️ Aile Ofisi Paneli'; }
+        function renderCommunity() { document.getElementById('dynamicContent').innerHTML = `<div class="stats-grid"><div class="stat-card"><div class="stat-value">${ansData.members}</div><div>Topluluk Üyesi</div></div><div class="stat-card"><div class="stat-value">${(ansData.ltv/ansData.cac).toFixed(1)}x</div><div>LTV/CAC</div></div><div class="stat-card"><div class="stat-value">${ansData.nps}</div><div>NPS</div></div></div><div class="stat-card"><h3 style="color:var(--gold);">🌍 Küresel Üye Dağılımı</h3><div style="background:var(--bg-elevated); padding:40px; text-align:center; border-radius:16px;">Türkiye | Almanya | İngiltere | ABD | BAE | Suudi Arabistan</div></div>`; document.getElementById('pageMainTitle').innerHTML = '👥 Topluluk & Üyelik'; }
+        function renderCRM() { document.getElementById('dynamicContent').innerHTML = `<div class="stat-card"><h3 style="color:var(--gold);">📇 CRM & İlişki Yönetimi</h3><div class="stats-grid"><div class="stat-card">VIP Üye: 124</div><div class="stat-card">Kurucu Üye: 28</div><div class="stat-card">Aktif Görüşme: 342</div><div class="stat-card">Dönüşüm: 34%</div></div><div class="progress-bar"><div class="progress-fill" style="width:68%"></div><div>İlişki Skoru: 68</div></div></div>`; document.getElementById('pageMainTitle').innerHTML = '📇 CRM & İlişki Yönetimi'; }
+        function renderEducation() { document.getElementById('dynamicContent').innerHTML = `<div class="stats-grid"><div class="stat-card"><div class="stat-value">${ansData.students}</div><div>Öğrenci</div></div><div class="stat-card"><div class="stat-value">345</div><div>Sertifika</div></div><div class="stat-card"><div class="stat-value">12</div><div>Aktif Kurs</div></div><div class="stat-card"><div class="stat-value">94%</div><div>Memnuniyet</div></div></div><div class="progress-bar"><div class="progress-fill" style="width:68%"></div><div>Program Tamamlama: 68%</div></div>`; document.getElementById('pageMainTitle').innerHTML = '🎓 Eğitim Akademisi'; }
+        function renderHealth() { document.getElementById('dynamicContent').innerHTML = `<div class="stats-grid"><div class="stat-card"><div class="stat-value">${ansData.patients}</div><div>Hasta</div></div><div class="stat-card"><div class="stat-value">82%</div><div>Termal Doluluk</div></div><div class="stat-card"><div class="stat-value">A+</div><div>Koruyucu Sağlık</div></div><div class="stat-card"><div class="stat-value">4.8</div><div>Memnuniyet</div></div></div>`; document.getElementById('pageMainTitle').innerHTML = '🏥 Sağlık & Termal Yaşam'; }
+        function renderAgriculture() { document.getElementById('dynamicContent').innerHTML = `<div class="stat-card"><h3 style="color:var(--gold);">🌾 Tarım & Doğal Gıda</h3><div class="stats-grid"><div class="stat-card">$156M Üretim</div><div class="stat-card">12 Ürün Hattı</div><div class="stat-card">4.500 Dönüm</div><div class="stat-card">Organik Sertifika</div></div></div>`; document.getElementById('pageMainTitle').innerHTML = '🌾 Tarım & Doğal Gıda'; }
+        function renderEcommerce() { document.getElementById('dynamicContent').innerHTML = `<div class="stats-grid"><div class="stat-card"><div class="stat-value">₺${(ansData.ecommerceVolume/1000000).toFixed(0)}M</div><div>Satış Hacmi</div></div><div class="stat-card"><div class="stat-value">17</div><div>Ülke</div></div><div class="stat-card"><div class="stat-value">+34%</div><div>Büyüme</div></div></div><canvas id="ecomChart" height="150"></canvas>`; document.getElementById('pageMainTitle').innerHTML = '🛍️ E-Ticaret & İhracat'; setTimeout(()=>{ let ctx=document.getElementById('ecomChart')?.getContext('2d'); if(ctx) new Chart(ctx,{ type:'line', data:{ labels:['2020','2021','2022','2023','2024'], datasets:[{ label:'Hacim (M₺)', data:[12,24,38,56,89], borderColor:'#D4AF7A', fill:true }] }, options:{ responsive:true } }); },100); }
+        function renderRealEstate() { document.getElementById('dynamicContent').innerHTML = `<div class="stat-card"><div class="stat-value">$${(ansData.realEstateValue/1000000).toFixed(0)}M</div><div>Proje Değeri</div><div class="progress-bar"><div class="progress-fill" style="width:45%"></div><div>5 Aktif Proje | Şehir Geliştirme</div></div></div>`; document.getElementById('pageMainTitle').innerHTML = '🏗️ Gayrimenkul & Şehir'; }
+        function renderEnergy() { document.getElementById('dynamicContent').innerHTML = `<div class="stat-card"><div class="stat-value">$78M</div><div>Yatırım</div><div>45MW GES | 2 Madencilik Projesi</div><div class="progress-bar"><div class="progress-fill" style="width:60%"></div><div>Sürdürülebilir Enerji: %60</div></div></div>`; document.getElementById('pageMainTitle').innerHTML = '⚡ Enerji & Madencilik'; }
+        function renderMedia() { document.getElementById('dynamicContent').innerHTML = `<div class="stat-card"><div class="stat-value">2.4M</div><div>Takipçi</div><div>📺 TV | 🎙️ Podcast | 📰 Dijital Gazete</div><div class="progress-bar"><div class="progress-fill" style="width:72%"></div><div>Medya Etkisi: %72</div></div></div>`; document.getElementById('pageMainTitle').innerHTML = '📺 Medya & Yayıncılık'; }
+        function renderAILab() { document.getElementById('dynamicContent').innerHTML = `<div class="stats-grid"><div class="stat-card">12 AI Projesi</div><div class="stat-card">3 Patent</div><div class="stat-card">$24M AR-GE</div><div class="stat-card">$12.4M SaaS</div></div><div class="progress-bar"><div class="progress-fill" style="width:45%"></div><div>AI Dönüşümü: %45</div></div>`; document.getElementById('pageMainTitle').innerHTML = '🤖 Yapay Zeka Laboratuvarı'; }
+        function renderRisk() { document.getElementById('dynamicContent').innerHTML = `<div class="stats-grid"><div class="stat-card">Piyasa: 18/100</div><div class="stat-card">Operasyonel: 25/100</div><div class="stat-card">İtibar: 15/100</div><div class="stat-card">Genel: ${ansData.riskScore}/100</div></div><div class="progress-bar"><div class="progress-fill" style="width:78%; background:var(--success)"></div><div>Düşük Risk Seviyesi</div></div>`; document.getElementById('pageMainTitle').innerHTML = '⚠️ Risk Yönetim Merkezi'; }
+        function renderLegal() { document.getElementById('dynamicContent').innerHTML = `<div class="stat-card"><h3 style="color:var(--gold);">⚖️ Hukuk & Uyum</h3><div>✅ GDPR | ✅ KVKK | ✅ ISO 27001 | ✅ SOC2</div><div class="progress-bar"><div class="progress-fill" style="width:95%"></div><div>Uyum Skoru: %95</div></div></div>`; document.getElementById('pageMainTitle').innerHTML = '⚖️ Hukuk & Uyum'; }
+        function renderHR() { document.getElementById('dynamicContent').innerHTML = `<div class="stats-grid"><div class="stat-card">124 Çalışan</div><div class="stat-card">28 Yönetici</div><div class="stat-card">92% Bağlılık</div><div class="stat-card">34 Lider Adayı</div></div>`; document.getElementById('pageMainTitle').innerHTML = '👔 İK & Yetenek Yönetimi'; }
+        function renderPartnerships() { document.getElementById('dynamicContent').innerHTML = `<div class="stat-card"><h3 style="color:var(--gold);">🤝 Stratejik Ortaklıklar</h3><div>🏛️ 12 Üniversite | 🏭 8 Sanayi | 🌍 5 Uluslararası Fon | 🏦 3 Banka</div></div>`; document.getElementById('pageMainTitle').innerHTML = '🤝 Stratejik Ortaklıklar'; }
+        function renderFoundation() { document.getElementById('dynamicContent').innerHTML = `<div class="stat-card"><div class="stat-value">${ansData.esgScore}/100</div><div>ESG Skoru</div><div class="progress-bar"><div class="progress-fill" style="width:${ansData.esgScore}%"></div></div><div>Vakıf Varlıkları: $45M | Bursiyer: 234</div></div>`; document.getElementById('pageMainTitle').innerHTML = '🏛️ Vakıf & Sosyal Etki'; }
+        function renderCivilization() { document.getElementById('dynamicContent').innerHTML = `<div class="stat-card"><div class="stat-value">${ansData.civilizationPower}/100</div><div>Medeniyet Gücü</div><div class="progress-bar"><div class="progress-fill" style="width:${ansData.civilizationPower}%"></div></div><div>📈 Bilgi × Kurumlar × Liderlik × Sermaye × Kültür × Nesiller</div><div class="stats-grid mt-3"><div class="stat-card">Bilgi:92</div><div class="stat-card">Kurumlar:88</div><div class="stat-card">Liderlik:96</div><div class="stat-card">Sermaye:94</div><div class="stat-card">Kültür:90</div><div class="stat-card">Nesiller:85</div></div></div>`; document.getElementById('pageMainTitle').innerHTML = '🏆 Medeniyet Etki Endeksi'; }
+        function renderMultigen() { document.getElementById('dynamicContent').innerHTML = `<div class="stat-card"><div class="stat-value">${ansData.sustainabilityIndex}/100</div><div>Nesil Sürdürülebilirlik</div><div class="progress-bar"><div class="progress-fill" style="width:${ansData.sustainabilityIndex}%"></div></div><div>3. Nesil Aktif | Trust | Aile Anayasası</div><div class="stat-value mt-3">$189M</div><div>Nesiller Arası Aktarılacak Servet</div></div>`; document.getElementById('pageMainTitle').innerHTML = '👨‍👩‍👧‍👦 Çok Nesil Servet'; }
+        function renderPackages() { let html = `<button class="add-btn" onclick="showAddPackageForm()"><i class="fas fa-plus"></i> Yeni Paket Ekle</button><div class="products-grid">${partnerships.map(p=>`<div class="product-card"><div class="product-icon"><i class="fas fa-gem"></i></div><div class="product-name">${p.name}</div><div class="product-price">₺${p.price.toLocaleString()}</div><div>${p.benefits.slice(0,3).join(', ')}</div><button class="delete-btn" onclick="deletePartnership(${p.id})">Sil</button></div>`).join('')}</div><div class="stat-card" style="margin-top:20px; text-align:center;"><button class="ortaklik-btn" onclick="showApplicationForm()">Hemen Ortak Ol!</button></div>`; document.getElementById('dynamicContent').innerHTML = html; document.getElementById('pageMainTitle').innerHTML = '💎 Ortaklık Paketleri'; }
+        function renderProductsAdmin() { let html = `<button class="add-btn" onclick="showAddForm()"><i class="fas fa-plus"></i> Yeni Ürün/Hizmet/Danışmanlık Ekle</button><div class="products-grid">${products.map(p=>`<div class="product-card"><div class="product-name">${p.name}</div><div class="product-price">₺${p.price}</div><div style="font-size:11px">${p.type} | ${p.category}</div><button class="delete-btn" onclick="deleteItem(${p.id})">Sil</button></div>`).join('')}</div>`; document.getElementById('dynamicContent').innerHTML = html; document.getElementById('pageMainTitle').innerHTML = '🔐 Yönetim Paneli'; }
         
-        function renderPackages() {
-            let html = `<button class="add-btn" onclick="showAddPackageForm()"><i class="fas fa-plus"></i> Yeni Ortaklık Paketi Ekle</button>
-            <div class="products-grid">${partnerships.map(p=>`<div class="product-card"><div class="product-icon"><i class="fas fa-gem"></i></div><div class="product-name">${p.name}</div><div class="product-price">₺${p.price.toLocaleString()}</div><div>${p.benefits.slice(0,3).join(', ')}${p.benefits.length>3?'...':''}</div><button class="delete-btn" onclick="deletePartnership(${p.id})"><i class="fas fa-trash"></i> Sil</button></div>`).join('')}</div>
-            <div class="stat-card" style="margin-top:20px; text-align:center;"><button class="ortaklik-btn" onclick="showApplicationForm()"><i class="fas fa-handshake"></i> Hemen Ortak Ol!</button></div>`;
-            document.getElementById('dynamicContent').innerHTML = html;
-            document.getElementById('pageMainTitle').innerHTML = '💎 Ortaklık Paketleri';
-            document.getElementById('pageSubTitle').innerHTML = 'Kendinize uygun paketi seçin, Anadolu Network Devleti\'ne ortak olun!';
-        }
+        const pages = { 
+            command:renderCommand, vision:renderVision, okr:renderOKR, finance:renderFinance, portfolio:renderPortfolio,
+            familyoffice:renderFamilyOffice, community:renderCommunity, crm:renderCRM, education:renderEducation, health:renderHealth,
+            agriculture:renderAgriculture, ecommerce:renderEcommerce, realestate:renderRealEstate, energy:renderEnergy, media:renderMedia,
+            ailab:renderAILab, risk:renderRisk, legal:renderLegal, hr:renderHR, partnerships:renderPartnerships,
+            foundation:renderFoundation, civilization:renderCivilization, multigen:renderMultigen,
+            applications:renderApplications, packages:renderPackages, admin:renderProductsAdmin
+        };
         
-        function renderProductsAdmin() {
-            let html = `<button class="add-btn" onclick="showAddForm('Ürün')"><i class="fas fa-plus"></i> Yeni Ürün/Hizmet Ekle</button><div class="products-grid">${products.map(p=>`<div class="product-card"><div class="product-name">${p.name}</div><div class="product-price">₺${p.price}</div><div style="font-size:11px">${p.type} | ${p.category}</div><button class="delete-btn" onclick="deleteItem(${p.id})"><i class="fas fa-trash"></i> Sil</button></div>`).join('')}</div>`;
-            document.getElementById('dynamicContent').innerHTML = html;
-            document.getElementById('pageMainTitle').innerHTML = '🔐 Yönetim Paneli';
-            document.getElementById('pageSubTitle').innerHTML = 'Ürün, Hizmet ve Danışmanlık Yönetimi';
-        }
-        
-        function renderFinance() { document.getElementById('dynamicContent').innerHTML = `<div class="stats-grid"><div class="stat-card"><div class="stat-value">$${(ansData.netWorth/1000000).toFixed(0)}M</div><div>Net Servet</div></div><div class="stat-card"><div class="stat-value">${ansData.portfolioReturn}%</div><div>Portföy Getirisi</div></div><div class="stat-card"><div class="stat-value">%${ansData.annualGrowth}</div><div>Yıllık Büyüme</div></div></div>`; document.getElementById('pageMainTitle').innerHTML = '💰 Finans & Sermaye'; }
-        function renderCommunity() { document.getElementById('dynamicContent').innerHTML = `<div class="stats-grid"><div class="stat-card"><div class="stat-value">${ansData.members}</div><div>Topluluk Üyesi</div></div><div class="stat-card"><div class="stat-value">${(ansData.ltv/ansData.cac).toFixed(1)}x</div><div>LTV/CAC</div></div><div class="stat-card"><div class="stat-value">${ansData.nps}</div><div>NPS</div></div></div><div class="stat-card" style="text-align:center;"><button class="ortaklik-btn" onclick="showApplicationForm()"><i class="fas fa-handshake"></i> Topluluğa Katıl, Ortak Ol!</button></div>`; document.getElementById('pageMainTitle').innerHTML = '👥 Topluluk'; }
-        function renderCivilization() { document.getElementById('dynamicContent').innerHTML = `<div class="stat-card"><div class="stat-value">${ansData.civilizationPower}/100</div><div>Medeniyet Gücü</div><div class="progress-bar"><div class="progress-fill" style="width:${ansData.civilizationPower}%"></div></div><div>📈 Bilgi × Kurumlar × Liderlik × Sermaye × Kültür × Nesiller</div></div>`; document.getElementById('pageMainTitle').innerHTML = '🏆 Medeniyet Endeksi'; }
-        
-        const pages = { command:renderCommand, applications:renderApplications, packages:renderPackages, admin:renderProductsAdmin, finance:renderFinance, community:renderCommunity, civilization:renderCivilization };
         document.querySelectorAll('.nav-item').forEach(item=>{ item.addEventListener('click',()=>{ let page=item.dataset.page; if(page==='logout'){ document.getElementById('loginOverlay').style.display='flex'; document.getElementById('appContainer').style.display='none'; document.getElementById('footer').style.display='none'; return; } document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); item.classList.add('active'); if(pages[page]) pages[page](); if(window.innerWidth<=1024) document.getElementById('sidebar').classList.remove('mobile-open'); }); });
         document.getElementById('mobileMenuBtn')?.addEventListener('click',()=>{ document.getElementById('sidebar').classList.toggle('mobile-open'); });
         document.addEventListener('click',(e)=>{ if(window.innerWidth<=1024){ let s=document.getElementById('sidebar'),b=document.getElementById('mobileMenuBtn'); if(!s.contains(e.target)&&!b.contains(e.target)&&s.classList.contains('mobile-open')) s.classList.remove('mobile-open'); } });
