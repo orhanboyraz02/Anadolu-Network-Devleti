@@ -141,16 +141,16 @@
 
     <div class="footer" id="footer" style="display: none;">
         <div class="footer-info">
-            <span><i class="fas fa-user"></i> CFO. Müh.Orhan BOYRAZ</span>
+            <span><i class="fas fa-user"></i> Orhan BOYRAZ</span>
             <span><i class="fab fa-whatsapp"></i> 0540 966 66 02</span>
             <span><i class="fas fa-envelope"></i> orhanboyraz0216@gmail.com</span>
             <span><i class="fas fa-map-marker-alt"></i> Bursa / Türkiye</span>
             <span><i class="fas fa-globe"></i> <a href="https://anadolunetwork.tr/" target="_blank" style="color: var(--gold);">anadolunetwork.tr</a></span>
         </div>
-        <button class="whatsapp-btn" onclick="window.open('https://wa.me/905409666002?text=Sayın Orhan BOYRAZ, Anadolu Network Devleti ortaklık başvurusu hakkında bilgi almak istiyorum.','_blank')" style="background: var(--whatsapp); color: white; padding: 8px 20px; border-radius: 50px; border: none; cursor: pointer;"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+        <button class="whatsapp-btn" onclick="window.open('https://wa.me/905409666602?text=Sayın Orhan BOYRAZ, Anadolu Network Devleti ortaklık başvurusu hakkında bilgi almak istiyorum.','_blank')" style="background: var(--whatsapp); color: white; padding: 8px 20px; border-radius: 50px; border: none; cursor: pointer;"><i class="fab fa-whatsapp"></i> WhatsApp</button>
     </div>
 
-    <div class="whatsapp-float" onclick="window.open('https://wa.me/905409666602?text=Ortaklık başvurusu yapmak istiyorum.','_blank')"><i class="fab fa-whatsapp" style="font-size: 28px;"></i></div>
+    <div class="whatsapp-float" onclick="window.open('https://wa.me/905409666002?text=Ortaklık başvurusu yapmak istiyorum.','_blank')"><i class="fab fa-whatsapp" style="font-size: 28px;"></i></div>
 
     <div id="applicationModal" class="modal"><div class="modal-content" id="applicationModalContent"></div></div>
     <div id="addModal" class="modal"><div class="modal-content" id="addModalContent"></div></div>
@@ -175,9 +175,9 @@
                     <select id="appPackage">
                         <option value="">Paket Seçiniz</option>
                         <option value="Girişimci Paketi (1000₺)">🚀 Girişimci Paketi (1000₺)</option>
-                        <option value="İş Ortaklığı Paketi (5.000₺)">🤝 İş Ortaklığı Paketi (5.000₺)</option>
-                        <option value="Yatırımcı Paketi (12.000₺)">💎 Yatırımcı Paketi (12.000₺)</option>
-                        <option value="Elit Kurucu Paketi (24.000₺)">👑 Elit Kurucu Paketi (24.000₺)</option>
+                        <option value="İş Ortaklığı Paketi (5000₺)">🤝 İş Ortaklığı Paketi (5000₺)</option>
+                        <option value="Yatırımcı Paketi (12000₺)">💎 Yatırımcı Paketi (12000₺)</option>
+                        <option value="Elit Kurucu Paketi (24000₺)">👑 Elit Kurucu Paketi (24000₺)</option>
                     </select>
                     <textarea id="appMessage" rows="3" placeholder="Neden ortak olmak istiyorsunuz? (İş tecrübeniz, sermaye durumunuz, hedefleriniz...)"></textarea>
                     <button onclick="submitApplication()">Başvuruyu Gönder</button>
@@ -277,10 +277,10 @@
         
         // GÜNCELLENMİŞ ORTAKLIK PAKETLERİ
         let partnerships = JSON.parse(localStorage.getItem('ansPartnerships')) || [
-            { id:1, name:"🚀 Girişimci Paketi", price:1000, benefits:["Eğitimlere erişim","Topluluk ağı","Aylık bülten","WhatsApp desteği"], popular:false },
-            { id:2, name:"🤝 İş Ortaklığı Paketi", price:5000, benefits:["Tüm eğitimler","Özel etkinlikler","Danışmanlık hakkı","Komisyon fırsatları","Özel toplantılar"], popular:true },
-            { id:3, name:"💎 Yatırımcı Paketi", price:12000, benefits:["Premium eğitimler","Birebir strateji","Yatırım fırsatları","Kar payı","Öncelikli destek","Özel rozet"], popular:false },
-            { id:4, name:"👑 Elit Kurucu Paketi", price:24000, benefits:["Sınırsız danışmanlık","Hisse opsiyonu","Kurucu toplantıları","VIP etkinlikler","Özel WhatsApp grubu","İmtiyaz hakları"], popular:false }
+            { id:1, name:"🚀 Girişimci Paketi", price:999, benefits:["Eğitimlere erişim","Topluluk ağı","Aylık bülten","WhatsApp desteği"], popular:false },
+            { id:2, name:"🤝 İş Ortaklığı Paketi", price:4999, benefits:["Tüm eğitimler","Özel etkinlikler","Danışmanlık hakkı","Komisyon fırsatları","Özel toplantılar"], popular:true },
+            { id:3, name:"💎 Yatırımcı Paketi", price:9999, benefits:["Premium eğitimler","Birebir strateji","Yatırım fırsatları","Kar payı","Öncelikli destek","Özel rozet"], popular:false },
+            { id:4, name:"👑 Elit Kurucu Paketi", price:24999, benefits:["Sınırsız danışmanlık","Hisse opsiyonu","Kurucu toplantıları","VIP etkinlikler","Özel WhatsApp grubu","İmtiyaz hakları"], popular:false }
         ];
         
         function saveProducts() { localStorage.setItem('ansProducts', JSON.stringify(products)); }
