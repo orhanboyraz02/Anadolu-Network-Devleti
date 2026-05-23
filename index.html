@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>ANS: ANADOLU NETWORK STATE | Anadolu Network Devleti - Strategic Intelligence Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0A1628;
+            color: #FFFFFF;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --bg-dark: #0A1628;
+            --bg-card: #0F1D3A;
+            --bg-elevated: #132540;
+            --border: #1E3A5F;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B8C5D6;
+            --text-muted: #6B85A3;
+            --gold: #D4AF7A;
+            --gold-dark: #B8925A;
+            --gold-light: #E2CAA0;
+            --success: #2E7D32;
+            --warning: #ED6C02;
+            --danger: #F44336;
+            --info: #0288D1;
+            --whatsapp: #25D366;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #07162B 0%, #041020 100%);
+            border-right: 1px solid var(--gold);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 28px 24px;
+            border-bottom: 1px solid var(--gold);
+            text-align: center;
+        }
+
+        .logo-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .logo-icon i {
+            font-size: 32px;
+            color: var(--gold);
+        }
+
+        .logo-text h2 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--gold);
+        }
+
+        .logo-text p {
+            font-size: 10px;
+            color: var(--gold-light);
+            letter-spacing: 2px;
+            margin-top: 4px;
+        }
+
+        .subtitle {
+            font-size: 9px;
+            color: var(--gold);
+            margin-top: 8px;
+            letter-spacing: 1px;
+        }
+
+        .user-profile {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+        }
+
+        .user-avatar i {
+            font-size: 40px;
+            color: var(--bg-dark);
+        }
+
+        .user-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .user-rank {
+            font-size: 12px;
+            color: var(--gold);
+        }
+
+        .nav-menu {
+            padding: 16px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            margin-bottom: 4px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+        }
+
+        .nav-item:hover {
+            background: rgba(212, 175, 122, 0.1);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: rgba(212, 175, 122, 0.15);
+            color: var(--gold);
+            border-left: 3px solid var(--gold);
+        }
+
+        .nav-item i {
+            width: 22px;
+            font-size: 18px;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 24px 32px;
+            padding-bottom: 140px;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .global-stats {
+            display: flex;
+            gap: 32px;
+        }
+
+        .global-stat {
+            text-align: center;
+        }
+
+        .global-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .global-stat-label {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .page-title h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .page-title p {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        /* Login */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 22, 40, 0.98);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-card {
+            background: var(--bg-card);
+            border-radius: 32px;
+            padding: 48px;
+            width: 90%;
+            max-width: 450px;
+            border: 2px solid var(--gold);
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 70px;
+            height: 70px;
+            background: var(--gold);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .login-logo i {
+            font-size: 36px;
+            color: var(--bg-dark);
+        }
+
+        .login-card h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--gold);
+            border: none;
+            border-radius: 12px;
+            color: var(--bg-dark);
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .stat-title {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(212, 175, 122, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-change {
+            font-size: 12px;
+        }
+
+        .stat-change.positive { color: var(--success); }
+        .stat-change.negative { color: var(--danger); }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 3px;
+            width: 0%;
+        }
+
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 280px;
+            right: 0;
+            background: var(--bg-card);
+            border-top: 2px solid var(--gold);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            z-index: 90;
+        }
+
+        .footer-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .footer-info a, .footer-info span {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .footer-info a:hover {
+            color: var(--gold);
+        }
+
+        .whatsapp-btn {
+            background: var(--whatsapp);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .badge-gold {
+            background: var(--gold);
+            color: var(--bg-dark);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            .footer { left: 0; }
+            .charts-row { grid-template-columns: 1fr; }
+            .mobile-menu-btn { display: flex; }
+        }
+
+        @media (max-width: 640px) {
+            .main-content { padding: 16px; }
+            .footer { flex-direction: column; text-align: center; }
+            .footer-info { flex-direction: column; gap: 8px; }
+            .top-bar { flex-direction: column; gap: 16px; }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: var(--bg-card);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1px solid var(--gold);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--border); }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .civilization-score {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--bg-dark);
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-logo"><i class="fas fa-landmark"></i></div>
+            <h2>ANADOLU NETWORK DEVLETİ</h2>
+            <p style="color: var(--gold); margin-bottom: 16px;">Strategic Intelligence Dashboard</p>
+            <p style="margin-bottom: 24px;">Medeniyetin İşletim Sistemi</p>
+            <div class="input-group"><label>E-posta</label><input type="email" id="loginEmail" value="lider@ans.com"></div>
+            <div class="input-group"><label>Şifre</label><input type="password" id="loginPassword" value="admin123"></div>
+            <button class="login-btn" onclick="handleLogin()"><i class="fas fa-arrow-right"></i> Giriş Yap</button>
+            <p style="margin-top: 24px; font-size: 12px; color: var(--text-muted);">Demo: lider@ans.com / admin123</p>
+        </div>
+    </div>
+
+    <div class="app-container" id="appContainer" style="display: none;">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon"><i class="fas fa-landmark"></i><div class="logo-text"><h2>ANADOLU</h2><p>NETWORK DEVLETİ</p></div></div>
+                <div class="subtitle">✦ STRATEGIC INTELLIGENCE ✦</div>
+            </div>
+            <div class="user-profile">
+                <div class="user-avatar"><i class="fas fa-user-tie"></i></div>
+                <div class="user-name">Chancellor</div>
+                <div class="user-rank">🏛️ Kurucu Lider</div>
+            </div>
+            <nav class="nav-menu">
+                <div class="nav-item active" data-page="dashboard"><i class="fas fa-chart-line"></i><span>📊 Executive Command</span></div>
+                <div class="nav-item" data-page="finance"><i class="fas fa-coins"></i><span>💰 Finans & Servet</span></div>
+                <div class="nav-item" data-page="community"><i class="fas fa-users"></i><span>👥 Topluluk & İnsan</span></div>
+                <div class="nav-item" data-page="economy"><i class="fas fa-chart-pie"></i><span>🏭 Ekonomi & Varlıklar</span></div>
+                <div class="nav-item" data-page="future"><i class="fas fa-microchip"></i><span>🔮 Gelecek & AI Lab</span></div>
+                <div class="nav-item" data-page="risk"><i class="fas fa-shield-alt"></i><span>⚖️ Risk & Uyum</span></div>
+                <div class="nav-item" data-page="logout"><i class="fas fa-sign-out-alt"></i><span>Çıkış</span></div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-bar">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></div>
+                    <div class="page-title">
+                        <h1 id="pageMainTitle">Executive Command Center</h1>
+                        <p id="pageSubTitle">Medeniyetin Gerçek Zamanlı Stratejik Komuta Merkezi</p>
+                    </div>
+                </div>
+                <div class="global-stats">
+                    <div class="global-stat"><div class="global-stat-value" id="civilizationScore">94.2</div><div class="global-stat-label">Medeniyet Gücü</div></div>
+                    <div class="global-stat"><div class="global-stat-value">$2.47B</div><div class="global-stat-label">Toplam Varlık</div></div>
+                    <div class="global-stat"><div class="global-stat-value">$124.8M</div><div class="global-stat-label">Aylık Nakit Akışı</div></div>
+                </div>
+            </div>
+            <div id="dynamicContent"></div>
+        </main>
+    </div>
+
+    <div class="footer" id="footer" style="display: none;">
+        <div class="footer-info">
+            <span><i class="fas fa-user"></i>CFO. Müh. Orhan BOYRAZ</span>
+            <span><i class="fab fa-whatsapp"></i> 0540 966 66 02</span>
+            <span><i class="fas fa-envelope"></i> orhanboyraz0216@gmail.com</span>
+            <span><i class="fas fa-map-marker-alt"></i> Bursa / Türkiye</span>
+            <span><i class="fas fa-globe"></i> Anadolu Network Devleti</span>
+        </div>
+        <button class="whatsapp-btn" onclick="window.open('https://wa.me/905409666602?text=Sayın Chancellor, Anadolu Network Devleti yatırım ve iş birliği fırsatları hakkında bilgi almak istiyorum.','_blank')"><i class="fab fa-whatsapp"></i> WhatsApp ile İletişim</button>
+    </div>
+
+    <script>
+        let isLoggedIn = false;
+        function handleLogin() { isLoggedIn = true; document.getElementById('loginOverlay').style.display = 'none'; document.getElementById('appContainer').style.display = 'flex'; document.getElementById('footer').style.display = 'flex'; renderDashboard(); }
+
+        // ANS Data
+        let ansData = {
+            totalAssets: 2470000000,
+            netWorth: 1890000000,
+            monthlyCashFlow: 124800000,
+            annualGrowth: 23.4,
+            portfolioReturn: 18.7,
+            riskScore: 22,
+            members: 12470,
+            activeSubscribers: 8920,
+            ltv: 12400,
+            cac: 340,
+            nps: 76,
+            students: 3450,
+            patients: 12800,
+            ecommerceVolume: 45600000,
+            exportAmount: 23400000,
+            realEstateValue: 890000000,
+            esgScore: 88,
+            sustainabilityIndex: 82,
+            civilizationPower: 94.2
+        };
+
+        // Dashboard Render
+        function renderDashboard() {
+            let html = `
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-header"><span class="stat-title">Medeniyet Gücü Endeksi</span><div class="stat-icon"><i class="fas fa-crown"></i></div></div><div class="stat-value">${ansData.civilizationPower}<span style="font-size:14px;">/100</span></div><div class="progress-bar"><div class="progress-fill" style="width:${ansData.civilizationPower}%"></div></div><div class="stat-change positive">📈 Bilgi × Kurumlar × Liderlik × Sermaye × Kültür × Nesiller</div></div>
+                    <div class="stat-card"><div class="stat-header"><span class="stat-title">Nesil Aşırı Sürdürülebilirlik</span><div class="stat-icon"><i class="fas fa-tree"></i></div></div><div class="stat-value">${ansData.sustainabilityIndex}<span style="font-size:14px;">/100</span></div><div class="progress-bar"><div class="progress-fill" style="width:${ansData.sustainabilityIndex}%"></div></div><div class="stat-change positive">3 nesil planlaması aktif</div></div>
+                    <div class="stat-card"><div class="stat-header"><span class="stat-title">Toplam Varlık Değeri (AUM)</span><div class="stat-icon"><i class="fas fa-chart-line"></i></div></div><div class="stat-value">$${(ansData.totalAssets/1000000).toFixed(0)}M</div><div class="stat-change positive">↑ +%${ansData.annualGrowth} Yıllık</div></div>
+                    <div class="stat-card"><div class="stat-header"><span class="stat-title">Risk Skoru</span><div class="stat-icon"><i class="fas fa-shield-virus"></i></div></div><div class="stat-value">${ansData.riskScore}<span style="font-size:14px;">/100</span></div><div class="progress-bar"><div class="progress-fill" style="width:${100-ansData.riskScore}%; background:${ansData.riskScore<30?'var(--success)':'var(--warning)'}"></div></div><div class="stat-change positive">Düşük risk - Güçlü pozisyon</div></div>
+                </div>
+
+                <div class="charts-row">
+                    <div class="stat-card"><h3 style="color:var(--gold); margin-bottom:16px;">📈 Portföy Getirisi & Varlık Dağılımı</h3><canvas id="portfolioChart" height="200"></canvas></div>
+                    <div class="stat-card"><h3 style="color:var(--gold); margin-bottom:16px;">🏭 Sektörel Dağılım</h3><canvas id="sectorChart" height="200"></canvas></div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-header"><span class="stat-title">Topluluk Üye Sayısı</span><div class="stat-icon"><i class="fas fa-users"></i></div></div><div class="stat-value">${ansData.members.toLocaleString()}</div><div class="stat-change positive">+%12 bu ay</div></div>
+                    <div class="stat-card"><div class="stat-header"><span class="stat-title">LTV / CAC Oranı</span><div class="stat-icon"><i class="fas fa-chart-simple"></i></div></div><div class="stat-value">${(ansData.ltv/ansData.cac).toFixed(1)}x</div><div class="stat-change positive">Mükemmel verimlilik</div></div>
+                    <div class="stat-card"><div class="stat-header"><span class="stat-title">NPS (Net Promoter Score)</span><div class="stat-icon"><i class="fas fa-star"></i></div></div><div class="stat-value">${ansData.nps}</div><div class="stat-change positive">🌟🌟🌟🌟🌟</div></div>
+                    <div class="stat-card"><div class="stat-header"><span class="stat-title">ESG Etki Skoru</span><div class="stat-icon"><i class="fas fa-leaf"></i></div></div><div class="stat-value">${ansData.esgScore}<span style="font-size:14px;">/100</span></div><div class="progress-bar"><div class="progress-fill" style="width:${ansData.esgScore}%"></div></div></div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card"><h3 style="color:var(--gold); margin-bottom:12px;">🎓 Eğitim Akademisi</h3><div class="stat-value">${ansData.students.toLocaleString()}</div><div>Öğrenci | +345 sertifika</div><div class="progress-bar mt-2"><div class="progress-fill" style="width:68%"></div></div><div>Program tamamlama: 68%</div></div>
+                    <div class="stat-card"><h3 style="color:var(--gold); margin-bottom:12px;">🏥 Sağlık Sistemi</h3><div class="stat-value">${ansData.patients.toLocaleString()}</div><div>Hasta | Termal doluluk: 82%</div><div class="progress-bar mt-2"><div class="progress-fill" style="width:82%"></div></div><div>Koruyucu sağlık skoru: A+</div></div>
+                    <div class="stat-card"><h3 style="color:var(--gold); margin-bottom:12px;">🛍️ E-ticaret & İhracat</h3><div class="stat-value">₺${(ansData.ecommerceVolume/1000000).toFixed(0)}M</div><div>Satış hacmi | İhracat: ₺${(ansData.exportAmount/1000000).toFixed(0)}M</div><div class="stat-change positive">Dijital İpek Yolu aktif</div></div>
+                    <div class="stat-card"><h3 style="color:var(--gold); margin-bottom:12px;">🏗️ Gayrimenkul</h3><div class="stat-value">$${(ansData.realEstateValue/1000000).toFixed(0)}M</div><div>Proje değeri | 5 aktif proje</div><div class="progress-bar mt-2"><div class="progress-fill" style="width:45%"></div></div><div>Şehir geliştirme devam ediyor</div></div>
+                </div>
+
+                <div class="stat-card"><h3 style="color:var(--gold); margin-bottom:16px;">📊 OKR Performans Takibi - 2024 Q4</h3>
+                    <div class="task-item" style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;"><span>🎯 Varlık Büyütme Hedefi: $3B</span><span style="color:var(--gold);">82%</span></div><div class="progress-bar"><div class="progress-fill" style="width:82%"></div></div></div>
+                    <div class="task-item" style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;"><span>🎯 Topluluk Üyesi: 15,000</span><span style="color:var(--gold);">83%</span></div><div class="progress-bar"><div class="progress-fill" style="width:83%"></div></div></div>
+                    <div class="task-item" style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;"><span>🎯 Medeniyet Gücü: 95/100</span><span style="color:var(--gold);">94%</span></div><div class="progress-bar"><div class="progress-fill" style="width:94%"></div></div></div>
+                </div>
+            `;
+            document.getElementById('dynamicContent').innerHTML = html;
+            document.getElementById('pageMainTitle').innerHTML = 'Executive Command Center';
+            document.getElementById('pageSubTitle').innerHTML = 'Medeniyetin Gerçek Zamanlı Stratejik Komuta Merkezi';
+
+            setTimeout(() => {
+                let ctx = document.getElementById('portfolioChart')?.getContext('2d');
+                if(ctx) new Chart(ctx, { type:'line', data:{ labels:['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül'], datasets:[{ label:'Portföy Getirisi (%)', data:[12,14,16,15,18,20,19,22,24], borderColor:'#D4AF7A', fill:true, backgroundColor:'rgba(212,175,122,0.1)' }] }, options:{ responsive:true, plugins:{ legend:{ labels:{ color:'white' } } }, scales:{ y:{ ticks:{ color:'white' } }, x:{ ticks:{ color:'white' } } } } });
+                ctx = document.getElementById('sectorChart')?.getContext('2d');
+                if(ctx) new Chart(ctx, { type:'doughnut', data:{ labels:['Finans (%25)','Eğitim (%18)','Sağlık (%15)','Tarım (%12)','E-ticaret (%10)','Enerji (%8)','Gayrimenkul (%7)','Medya (%5)'], datasets:[{ data:[25,18,15,12,10,8,7,5], backgroundColor:['#D4AF7A','#B8925A','#9B7B45','#7D6030','#604820','#4A3818','#352710','#201A0A'] }] }, options:{ responsive:true, plugins:{ legend:{ position:'right', labels:{ color:'white', font:{ size:10 } } } } } });
+            }, 100);
+        }
+
+        // Finans
+        function renderFinance() {
+            let html = `
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-header"><span class="stat-title">Net Servet</span><div class="stat-icon"><i class="fas fa-coins"></i></div></div><div class="stat-value">$${(ansData.netWorth/1000000).toFixed(0)}M</div><div class="stat-change positive">↑ +%${ansData.annualGrowth} Yıllık</div></div>
+                    <div class="stat-card"><div class="stat-header"><span class="stat-title">Aylık Net Nakit Akışı</span><div class="stat-icon"><i class="fas fa-chart-line"></i></div></div><div class="stat-value">$${(ansData.monthlyCashFlow/1000000).toFixed(0)}M</div><div class="stat-change positive">↑ +%15.2</div></div>
+                    <div class="stat-card"><div class="stat-header"><span class="stat-title">Portföy Getirisi (YTD)</span><div class="stat-icon"><i class="fas fa-percent"></i></div></div><div class="stat-value">${ansData.portfolioReturn}%</div><div class="stat-change positive">Benchmark'ı +%6 geçiyor</div></div>
+                    <div class="stat-card"><div class="stat-header"><span class="stat-title">Aile Ofisi Likiditesi</span><div class="stat-icon"><i class="fas fa-chart-pie"></i></div></div><div class="stat-value">$342M</div><div class="stat-change">Nakit + Altın + Kripto</div></div>
+                </div>
+                <div class="charts-row">
+                    <div class="stat-card"><h3 style="color:var(--gold);">💰 Varlık Dağılımı</h3><canvas id="assetAllocationChart" height="250"></canvas></div>
+                    <div class="stat-card"><h3 style="color:var(--gold);">🏦 Çok Nesilli Servet Planlaması</h3><div class="stat-value">3. Nesil</div><div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div><div>Nesil geçiş hazırlığı: %75</div><div class="mt-3"><span class="badge-gold">Trust Yapısı Aktif</span> <span class="badge-gold">Vergi Optimizasyonu</span> <span class="badge-gold">Aile Anayasası</span></div></div>
+                </div>
+            `;
+            document.getElementById('dynamicContent').innerHTML = html;
+            document.getElementById('pageMainTitle').innerHTML = '💰 Finans & Servet Yönetimi';
+            document.getElementById('pageSubTitle').innerHTML = 'Aile Ofisi | Portföy | Çok Nesilli Planlama';
+            setTimeout(()=>{ let ctx=document.getElementById('assetAllocationChart')?.getContext('2d'); if(ctx) new Chart(ctx,{ type:'pie', data:{ labels:['Hisse Senedi (%35)','Özel Sermaye (%25)','Gayrimenkul (%20)','Sabit Getiri (%12)','Alternatif (%8)'], datasets:[{ data:[35,25,20,12,8], backgroundColor:['#D4AF7A','#B8925A','#9B7B45','#7D6030','#604820'] }] }, options:{ responsive:true, plugins:{ legend:{ position:'bottom', labels:{ color:'white' } } } } }); },100);
+        }
+
+        // Topluluk
+        function renderCommunity() {
+            let html = `<div class="stats-grid"><div class="stat-card"><div class="stat-header"><span class="stat-title">Topluluk Üye Sayısı</span><div class="stat-icon"><i class="fas fa-globe"></i></div></div><div class="stat-value">${ansData.members.toLocaleString()}</div><div>Küresel Dağılım: TR, AB, ABD, KÖRFEZ</div></div><div class="stat-card"><div class="stat-header"><span class="stat-title">Aktif Aboneler</span><div class="stat-icon"><i class="fas fa-user-check"></i></div></div><div class="stat-value">${ansData.activeSubscribers.toLocaleString()}</div><div>Abonelik Geliri: $8.2M/ay</div></div><div class="stat-card"><div class="stat-header"><span class="stat-title">LTV (Yaşam Boyu Değer)</span><div class="stat-icon"><i class="fas fa-chart-line"></i></div></div><div class="stat-value">$${ansData.ltv.toLocaleString()}</div><div>CAC: $${ansData.cac} | LTV/CAC: ${(ansData.ltv/ansData.cac).toFixed(1)}x</div></div><div class="stat-card"><div class="stat-header"><span class="stat-title">NPS (Net Promoter)</span><div class="stat-icon"><i class="fas fa-smile"></i></div></div><div class="stat-value">${ansData.nps}</div><div>🌟 Mükemmel | Sektör ortalaması: 45</div></div></div><div class="stat-card"><h3 style="color:var(--gold);">🗺️ Global Üye Isı Haritası</h3><div style="background:var(--bg-elevated); height:200px; border-radius:16px; display:flex; align-items:center; justify-content:center;"><i class="fas fa-map" style="font-size:80px; color:var(--gold); opacity:0.5;"></i><span style="margin-left:16px;">Türkiye | Almanya | İngiltere | ABD | BAE | Suudi Arabistan</span></div></div>`;
+            document.getElementById('dynamicContent').innerHTML = html;
+            document.getElementById('pageMainTitle').innerHTML = '👥 Topluluk & İnsan';
+            document.getElementById('pageSubTitle').innerHTML = 'CRM | Üyelik | Küresel Ağ';
+        }
+
+        // Ekonomi
+        function renderEconomy() {
+            let html = `<div class="stats-grid"><div class="stat-card"><div class="stat-header"><span class="stat-title">Tarım & Gıda Ekosistemi</span><div class="stat-icon"><i class="fas fa-tractor"></i></div></div><div class="stat-value">$156M</div><div>Yıllık üretim | 12 ürün hattı</div></div><div class="stat-card"><div class="stat-header"><span class="stat-title">E-ticaret Hacmi</span><div class="stat-icon"><i class="fas fa-shopping-cart"></i></div></div><div class="stat-value">₺${(ansData.ecommerceVolume/1000000).toFixed(0)}M</div><div>Büyüme: +%34 Yıllık</div></div><div class="stat-card"><div class="stat-header"><span class="stat-title">İhracat Tutarı</span><div class="stat-icon"><i class="fas fa-ship"></i></div></div><div class="stat-value">₺${(ansData.exportAmount/1000000).toFixed(0)}M</div><div>17 ülkeye ihracat</div></div><div class="stat-card"><div class="stat-header"><span class="stat-title">Enerji & Madencilik</span><div class="stat-icon"><i class="fas fa-solar-panel"></i></div></div><div class="stat-value">$78M</div><div>GES yatırımı: 45MW</div></div></div><div class="charts-row"><div class="stat-card"><h3 style="color:var(--gold);">📈 E-ticaret Büyüme Trendi</h3><canvas id="ecommerceChart" height="200"></canvas></div><div class="stat-card"><h3 style="color:var(--gold);">🏗️ Gayrimenkul Projeleri</h3><div class="stat-value">5 Aktif Proje</div><div>Toplam değer: $890M | Termal Yaşam Kampüsü: %82 doluluk</div><div class="progress-bar mt-2"><div class="progress-fill" style="width:82%"></div></div></div></div>`;
+            document.getElementById('dynamicContent').innerHTML = html;
+            document.getElementById('pageMainTitle').innerHTML = '🏭 Ekonomi & Varlıklar';
+            document.getElementById('pageSubTitle').innerHTML = 'Tarım | E-ticaret | Enerji | Gayrimenkul';
+            setTimeout(()=>{ let ctx=document.getElementById('ecommerceChart')?.getContext('2d'); if(ctx) new Chart(ctx,{ type:'line', data:{ labels:['2020','2021','2022','2023','2024'], datasets:[{ label:'E-ticaret Hacmi (M₺)', data:[12,24,38,56,89], borderColor:'#D4AF7A', fill:true }] }, options:{ responsive:true, plugins:{ legend:{ labels:{ color:'white' } } }, scales:{ y:{ ticks:{ color:'white' } }, x:{ ticks:{ color:'white' } } } } }); },100);
+        }
+
+        // Gelecek
+        function renderFuture() {
+            let html = `<div class="stats-grid"><div class="stat-card"><div class="stat-header"><span class="stat-title">AI Projeleri</span><div class="stat-icon"><i class="fas fa-brain"></i></div></div><div class="stat-value">12</div><div>Aktif | 3 patent başvurusu</div></div><div class="stat-card"><div class="stat-header"><span class="stat-title">Teknoloji ROI</span><div class="stat-icon"><i class="fas fa-chart-line"></i></div></div><div class="stat-value">%34</div><div>Son 12 ay</div></div><div class="stat-card"><div class="stat-header"><span class="stat-title">AR-GE Bütçesi</span><div class="stat-icon"><i class="fas fa-flask"></i></div></div><div class="stat-value">$24M</div><div>Yıllık</div></div><div class="stat-card"><div class="stat-header"><span class="stat-title">SaaS Geliri</span><div class="stat-icon"><i class="fas fa-cloud"></i></div></div><div class="stat-value">$12.4M</div><div>ARR, +%45 büyüme</div></div></div><div class="stat-card"><h3 style="color:var(--gold);">🤖 AI Lab - Proje Havuzu</h3><div class="stats-grid" style="grid-template-columns:repeat(2,1fr);"><div>🔹 ANS Co-Pilot (Strategy AI)</div><div>🔹 Sağlık Teşhis AI</div><div>🔹 Tarım Optimizasyon AI</div><div>🔹 Eğitim Kişiselleştirme AI</div></div><div class="progress-bar mt-3"><div class="progress-fill" style="width:45%"></div><div>AI Dönüşümü: %45 tamamlandı</div></div></div>`;
+            document.getElementById('dynamicContent').innerHTML = html;
+            document.getElementById('pageMainTitle').innerHTML = '🔮 Gelecek & AI Lab';
+            document.getElementById('pageSubTitle').innerHTML = 'Yapay Zeka | AR-GE | Teknoloji Dönüşümü';
+        }
+
+        // Risk 
+        function renderRisk() {
+            let html = `<div class="stats-grid"><div class="stat-card"><div class="stat-header"><span class="stat-title">Genel Risk Skoru</span><div class="stat-icon"><i class="fas fa-chart-line"></i></div></div><div class="stat-value">${ansData.riskScore}/100</div><div class="stat-change positive">Düşük risk seviyesi</div></div><div class="stat-card"><div class="stat-header"><span class="stat-title">Piyasa Riski</span><div class="stat-icon"><i class="fas fa-chart-line"></i></div></div><div class="stat-value">18/100</div><div>Düşük volatilite</div></div><div class="stat-card"><div class="stat-header"><span class="stat-title">Operasyonel Risk</span><div class="stat-icon"><i class="fas fa-chart-line"></i></div></div><div class="stat-value">25/100</div><div>Güçlü iç kontrol</div></div><div class="stat-card"><div class="stat-header"><span class="stat-title">İtibar Riski</span><div class="stat-icon"><i class="fas fa-chart-line"></i></div></div><div class="stat-value">15/100</div><div>Yüksek güven</div></div></div><div class="stat-card"><h3 style="color:var(--gold);">⚖️ Hukuk & Uyum Durumu</h3><div>✅ GDPR Uyumlu | ✅ KVKK | ✅ ISO 27001 | ✅ SOC2 Süreci</div><div class="progress-bar mt-2"><div class="progress-fill" style="width:95%"></div><div>Uyum Skoru: %95</div></div></div>`;
+            document.getElementById('dynamicContent').innerHTML = html;
+            document.getElementById('pageMainTitle').innerHTML = '⚖️ Risk & Uyum Merkezi';
+            document.getElementById('pageSubTitle').innerHTML = 'Kurumsal Risk Yönetimi | Yasal Uyum';
+        }
+
+        const pages = { dashboard:renderDashboard, finance:renderFinance, community:renderCommunity, economy:renderEconomy, future:renderFuture, risk:renderRisk };
+        document.querySelectorAll('.nav-item').forEach(item=>{ item.addEventListener('click',()=>{ let page=item.dataset.page; if(page==='logout'){ document.getElementById('loginOverlay').style.display='flex'; document.getElementById('appContainer').style.display='none'; document.getElementById('footer').style.display='none'; return; } document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); item.classList.add('active'); if(pages[page]) pages[page](); if(window.innerWidth<=1024) document.getElementById('sidebar').classList.remove('mobile-open'); }); });
+        document.getElementById('mobileMenuBtn')?.addEventListener('click',()=>{ document.getElementById('sidebar').classList.toggle('mobile-open'); });
+        document.addEventListener('click',(e)=>{ if(window.innerWidth<=1024){ let s=document.getElementById('sidebar'),b=document.getElementById('mobileMenuBtn'); if(!s.contains(e.target)&&!b.contains(e.target)&&s.classList.contains('mobile-open')) s.classList.remove('mobile-open'); } });
+        renderDashboard();
+    </script>
+</body>
+</html>
